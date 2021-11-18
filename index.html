@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<video id="localVideo" width="360" height="240" autoplay="autoplay" controls></video>
+<video id="remoteVideo" width="360" height="240" autoplay="autoplay" controls></video>
+<script>
+    let  videoElem = document.querySelector('#localVideo');
+    navigator.getUserMedia(
+        {video:true,audio:true},
+        function(stream){
+            console.log('stream',stream.getTracks ())
+            videoElem.srcObject = stream;
+        },
+        function(error){console.log("Failed to get access to local media. Error code was " + error.code);}
+    );
+
+
+    /*
+   let  videoElem = document.querySelector('#localVideo');
+
+
+    var peerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection || window.msRTCPeerConnection;
+
+    var onePeer = new peerConnection();
+    var twoPeer = new peerConnection();
+   var connectionState = onePeer.connectionState;
+   var twoPeerconnectionState = twoPeer.connectionState;
+   console.log(connectionState)
+   console.log(twoPeerconnectionState)
+    var promise = navigator.mediaDevices.getUserMedia({video:true});
+    promise.then(function(mediaStream) {
+        onePeer.addStream(mediaStream)
+    })
+
+    let inboundStream = null;
+
+    onePeer.onStream = ev => {
+        if (ev.streams && ev.streams[0]) {
+            videoElem.srcObject = ev.streams[0];
+        } else {
+            if (!inboundStream) {
+                inboundStream = new MediaStream();
+                videoElem.srcObject = inboundStream;
+            }
+            inboundStream.addTrack(ev.track);
+        }
+    }
+
+
+
+
+
+
+//////////////////////////
+
+    var peerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection || window.msRTCPeerConnection;
+    var sessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription || window.msRTCSessionDescription;
+    navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia;
+
+    var onePeer = new peerConnection();
+    var twoPeer = new peerConnection();
+
+    var wq = new sessionDescription;
+    console.log(wq)
+    console.log(sessionDescription)
+    console.log(onePeer)
+
+    onePeer.onaddstream = function(obj) {
+
+       // document.getElementById("localVideo").src = window.URL.createObjectURL(obj.stream);
+        document.getElementById("localVideo").srcObject = obj.stream;
+        console.log('stream',stream)
+    }
+
+    function error(err) {
+        //Error
+    }
+
+    function initialize() {
+        navigator.getUserMedia(
+            {video:true},
+            function(stream){
+                console.log('stream',stream)
+                onePeer.onaddstream({stream: stream});
+                onePeer.addStream(stream);
+                console.log('stream',stream)
+                onePeer.createOffer(function(offer) {
+                    onePeer.setLocalDescription(new sessionDescription(offer), function() {
+                        console.log('offer',offer)
+                        // Пытаюсь принять:
+                        remote(offer);
+                    }, error);
+                }, error);
+            },
+            function(error){console.log("Failed to get access to local media. Error code was " + error.code);}
+        );
+    }
+
+    //Получает ссылку - но не отображает, почему?
+    twoPeer.onaddstream = function(obj) {document.getElementById("remoteVideo").srcObject = obj.stream};
+
+    function remote(obj) {
+        twoPeer.setRemoteDescription(new sessionDescription(obj), function() {
+            twoPeer.createAnswer(function(answer) {
+                twoPeer.setLocalDescription(new sessionDescription(answer), function() {
+                    // ANSWER
+                    console.log('answer',answer)
+                }, error);
+            }, error);
+        }, error);
+    }
+
+    setTimeout(initialize, 100);
+*/
+</script>
+</body>
+</html>
